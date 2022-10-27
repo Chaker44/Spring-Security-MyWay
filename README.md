@@ -99,4 +99,38 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter  {
 
  
  ```
+ 
+ or 
+ 
+ ```
+ @Configuration
+public class ProjectConfig extends WebSecurityConfigurerAdapter  {
+
+
+
+    @Bean
+    public  PasswordEncoder passwordEncoder(){
+            return NoOpPasswordEncoder.getInstance();
+    }
+
+    @Override
+    protected  void configure(AuthenticationManagerBuilder auth)throws Exception {
+        var userDetailService = new InMemoryUserDetailsManager();
+        var user = User.withUsername("chaker").password("1234").authorities("read").build();
+        userDetailService.createUser(user);
+
+        auth.userDetailsService(userDetailService);
+
+
+    }
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.httpBasic();
+        httpSecurity.authorizeRequests().anyRequest().permitAll();
+    }
+
+
+}
+ 
+ ``` 
 
