@@ -7,8 +7,6 @@
 * Override the default implementation provided by spring security by changing the implementation of the two compnent UserDetailsService 
 
 ```
-
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -47,7 +45,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter  {
         return NoOpPasswordEncoder.getInstance();
     }
         } 
-    ```
+   ``` 
         
   As the code example show we override the default implementation by adding a new ProjectConfig class annoted with @Configuration to tell spring that he should take this class as configuration Bean in the applicationContext file
   , then we add a userDetailService method annoted with @Bean that return a new UserDetailsService object responsible for managing the user details then we instiate a object userDetailsService of type MemortUserDetailsManager() to store user credentials 
@@ -59,7 +57,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter  {
   
  ## Second way of authentication 
  
- ```
+```
  package com.example.ssiach2ex1.configurations;
 
 
