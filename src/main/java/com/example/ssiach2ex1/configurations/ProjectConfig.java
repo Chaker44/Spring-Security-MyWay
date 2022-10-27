@@ -31,7 +31,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter  {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.httpBasic();
-        httpSecurity.authorizeRequests().anyRequest().permitAll();
+        httpSecurity.authorizeRequests().anyRequest().authenticated();
     }
 
 
