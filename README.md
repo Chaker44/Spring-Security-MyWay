@@ -7,8 +7,6 @@
 * Override the default implementation provided by spring security by changing the implementation of the two compnent UserDetailsService 
 
 ```
-
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,7 +44,8 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter  {
     public PasswordEncoder passwordEncoder(){
         return NoOpPasswordEncoder.getInstance();
     }
-        } ```
+        }
+   ``` 
         
   As the code example show we override the default implementation by adding a new ProjectConfig class annoted with @Configuration to tell spring that he should take this class as configuration Bean in the applicationContext file
   , then we add a userDetailService method annoted with @Bean that return a new UserDetailsService object responsible for managing the user details then we instiate a object userDetailsService of type MemortUserDetailsManager() to store user credentials 
@@ -55,59 +54,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter  {
   
   
   
-## Second Way of configuration
 
-### One of the confusing aspects of creating configurations with Spring Security is having
-multiple ways to configure the same thing (Spring Security in action ) 
-
-* In this section, you’ll learn alternatives for
-configuring UserDetailsService and PasswordEncoder . In the configuration class, instead of defining these two objects as beans, we set
-them up through the configure(AuthenticationManagerBuilder auth)
-method. We override this method from the WebSecurityConfigurerAdapter class
-and use its parameter of type AuthenticationManagerBuilder to set both the
-UserDetailsService and the PasswordEncoder as shown in the following code demo  
-``` 
-package com.example.ssiach2ex1.configurations;
-
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserCache;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-
-
-@Configuration
-public class ProjectConfig extends WebSecurityConfigurerAdapter  {
-
-    @Override
-    protected  void configure(AuthenticationManagerBuilder auth)throws Exception {
-        var userDetailService = new InMemoryUserDetailsManager();
-        var user = User.withUsername("chaker").password("1234").authorities("read").build();
-        userDetailService.createUser(user);
-
-        auth.userDetailsService(userDetailService).passwordEncoder(NoOpPasswordEncoder.getInstance());
-
-
-    }
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.httpBasic();
-        httpSecurity.authorizeRequests().anyRequest().permitAll();
-    }
-
-
-        }
-
-
-```
 
 
 
