@@ -57,9 +57,35 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return false;
+        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authenticationType);
     }
 }
+```
+*In the configuration class, you can register the AuthenticationProvider in the
+configure(AuthenticationManagerBuilder auth) method shown in the following
+listing.
+``` 
+@Configuration
+public class ProjectConfig extends WebSecurityConfigurerAdapter  {
+
+    @Autowired
+    private CustomAuthenticationProvider authenticationProvider ;
+
+    @Override
+    protected  void configure(AuthenticationManagerBuilder auth)throws Exception {
+        auth.authenticationProvider(authenticationProvider);
+
+
+    }
+    @Override
+
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.httpBasic();
+        httpSecurity.authorizeRequests().anyRequest().authenticated();
+    }
+
+
+        }
 ```
 
 
