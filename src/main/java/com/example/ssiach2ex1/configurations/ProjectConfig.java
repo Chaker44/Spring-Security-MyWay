@@ -15,7 +15,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 
 @Configuration
-public class ProjectConfig  {
+public class ProjectConfig extends WebSecurityConfigurerAdapter  {
 
 
     @Bean
@@ -27,6 +27,12 @@ public class ProjectConfig  {
         userDetailsService.createUser(user);
         return userDetailsService ;
 
+    }
+
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.httpBasic();
+        httpSecurity.authorizeRequests().anyRequest().authenticated();
     }
 
 
